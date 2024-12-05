@@ -1,0 +1,17 @@
+.cursor-pointer{
+    cursor: pointer;
+    user-select: none;
+}
+
+.cursor-default{
+    cursor: default;
+    user-select: none;
+}
+
+.link{
+    cursor: pointer;
+}
+
+.link:hover{
+    text-decoration: underline;
+}

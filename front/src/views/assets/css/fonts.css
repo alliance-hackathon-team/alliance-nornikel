@@ -1,0 +1,58 @@
+:root {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.5;
+}
+
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    line-height: inherit;
+    font-size: inherit;
+}
+
+.fs-1 {
+    font-size: 12px;
+}
+
+.fs-2 {
+    font-size: 16px;
+}
+
+.fs-3 {
+    font-size: 18px;
+}
+
+.fs-4 {
+    font-size: 24px;
+}
+
+.fs-5 {
+    font-size: 36px;
+}
+
+.secondary-text {
+    color: var(--color-outline-pressed);
+}
+
+.white-text {
+    color: var(--color-white);
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 600px) {
+    .fs-3 {
+        font-size: 16px;
+    }
+
+    .fs-4 {
+        font-size: 22px;
+    }
+
+    .fs-5 {
+        font-size: 30px;
+    }
+}
