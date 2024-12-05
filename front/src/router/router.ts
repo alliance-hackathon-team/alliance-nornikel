@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router"
-import SearchPage from "../views/pages/search-page.vue";
+import SearchPage from "../views/pages/search-page/search-page.vue";
 
 
 export const router = createRouter({

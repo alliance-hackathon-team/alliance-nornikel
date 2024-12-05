@@ -5,7 +5,7 @@ import {HorizontalMenu} from "./router/main-menu";
 <template>
   <div style="background: var(--color-blue-0); min-height: 100vh;">
     <horizontal-menu/>
-    <router-view style="margin-top: 38px;"/>
+    <router-view style="padding-top: 38px;"/>
   </div>
 </template>
 
