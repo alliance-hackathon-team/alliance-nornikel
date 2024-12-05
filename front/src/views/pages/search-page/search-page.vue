@@ -27,14 +27,12 @@ watch(searchString, async (val: string) => {
         Search
       </button>
     </div>
-    <div>
-      {{ searchString }}
-    </div>
 
     <div class="result-container">
       <target-file-component
           v-for="item in targetFiles"
           :target-file="item"
+          :search-string="searchString"
       />
     </div>
 

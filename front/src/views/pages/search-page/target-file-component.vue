@@ -1,15 +1,24 @@
 <script setup lang="ts">
-
-
 import {TargetFile} from "../../../services/backend/domain.ts";
 
 const p = defineProps<{
   targetFile: TargetFile,
   searchString?: string,
-}>()
+}>();
 
 const handleClickOnCard = () => {
   window.open(p.targetFile.src, "_blank");
+};
+
+// Функция для подсветки совпадений
+const highlightText = (text: string, search: string | undefined): string => {
+  if (!search || !search.trim()) {
+    return text; // Если searchString пустая, возвращаем текст без изменений
+  }
+  const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escapedSearch})`, "gi");
+   // Оборачиваем совпадения в span
+  return text.replace(regex, `<span style="background: yellow">$1</span>`)
 };
 </script>
 
@@ -19,13 +28,13 @@ const handleClickOnCard = () => {
       @click="handleClickOnCard"
   >
     <div>
-
+      <!-- Подсвечиваем текст -->
     </div>
     <div class="font-bold">
-      {{ p.targetFile.title }}{{p.targetFile.extension}}
+      <span v-html="highlightText(p.targetFile.title + p.targetFile.extension, searchString)"></span>
     </div>
     <div class="mt-12">
-      {{p.targetFile.content}}
+      <span v-html="highlightText(p.targetFile.content, searchString)"></span>
     </div>
   </div>
 </template>
@@ -41,5 +50,11 @@ const handleClickOnCard = () => {
 
 .target-file:hover {
   cursor: pointer;
+}
+
+/* Стиль подсветки текста */
+.highlight {
+  background: yellow;
+  font-weight: bold;
 }
 </style>
