@@ -17,12 +17,12 @@ export const unauthMenuItems: MenuItem[] = [
         onClick: () => router.push({name: "search"}),
 
     },
-    {
-        title: "Upload",
-        code: "upload",
-        onClick: () => router.push({name: "upload"}),
-
-    },
+    // {
+    //     title: "Upload",
+    //     code: "upload",
+    //     onClick: () => router.push({name: "upload"}),
+    //
+    // },
 ]
 
 export const handleClickOnLogo = () => router.push({name: "search"})

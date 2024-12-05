@@ -33,7 +33,7 @@ const highlightText = (text: string, search: string | undefined): string => {
     <div class="font-bold">
       <span v-html="highlightText(p.targetFile.title + p.targetFile.extension, searchString)"></span>
     </div>
-    <div class="mt-12">
+    <div class="mt-12 multiline-ellipsis">
       <span v-html="highlightText(p.targetFile.content, searchString)"></span>
     </div>
   </div>
@@ -43,7 +43,7 @@ const highlightText = (text: string, search: string | undefined): string => {
 .target-file {
   border-radius: 6px;
   padding: 6px 12px;
-  width: 286px;
+  width: 293px;
   height: 300px;
   background: white;
 }
@@ -52,9 +52,13 @@ const highlightText = (text: string, search: string | undefined): string => {
   cursor: pointer;
 }
 
-/* Стиль подсветки текста */
-.highlight {
-  background: yellow;
-  font-weight: bold;
+/* Многострочное ограничение с многоточием */
+.multiline-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 9; /* Количество строк */
+  -webkit-line-clamp: 9; /* Для Webkit-браузеров */
 }
 </style>

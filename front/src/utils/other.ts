@@ -1,7 +1,7 @@
-import {UnionType} from "../core.ts";
 import {ZodObject, ZodRecord} from "zod";
 import {fromError} from "zod-validation-error";
 
+export type UnionType = string | number | boolean | Date | undefined | null
 
 export function getAsNotNullable<T>(item?: T) {
     if (!item) throw Error("UndefinedError")
