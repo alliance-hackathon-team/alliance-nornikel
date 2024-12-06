@@ -1,4 +1,6 @@
 import {TargetFile} from "./domain.ts";
+import axios from "axios";
+import {convertDocumentToTargetFile, ResponseData} from "./services.ts";
 
 const fakeData: TargetFile[] = [
     {
@@ -49,7 +51,31 @@ class BackendAdapter {
     }
 }
 
+const axiosInstance = axios.create({
+    baseURL: "http://127.0.0.1:8000",
+    headers: {
+        "Accept": "application/json",
+    },
+})
+
+
+class RealBackendAdapter extends BackendAdapter {
+
+    async getTargetFiles(searchString: string): Promise<TargetFile[]> {
+        const data = {text: searchString}
+        const url = "/search"
+        const response: ResponseData = (await axiosInstance.post(url, data)).data
+        const result: TargetFile[] = []
+        for (let doc of response.result) {
+            result.push(
+                convertDocumentToTargetFile(doc)
+            )
+        }
+        return result
+    }
+}
+
 
 export function getBackendAdapter(): BackendAdapter {
-    return new BackendAdapter()
+    return new RealBackendAdapter()
 }
