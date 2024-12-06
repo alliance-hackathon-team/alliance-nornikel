@@ -49,6 +49,10 @@ class BackendAdapter {
         console.log(searchString);
         return fakeData
     }
+
+    async uploadFiles(data: File[]): Promise<void> {
+        console.log(data);
+    }
 }
 
 const axiosInstance = axios.create({
@@ -72,6 +76,28 @@ class RealBackendAdapter extends BackendAdapter {
             )
         }
         return result
+    }
+
+    async uploadFiles(files: File[]): Promise<void> {
+        const formData = new FormData()
+        files.forEach((file, index) => {
+            formData.append(`files[${index}]`, file); // Вложение файла с индексированием
+        })
+        const headers = {
+            "Content-Type": "multipart/form-data",
+        }
+
+        try {
+            await axiosInstance.post(
+                "/upload",
+                formData,
+                {headers: headers,},
+                )
+
+        } catch (error) {
+            console.error(error)
+            throw error; // Проброс ошибки для обработки вызывающей стороной
+        }
     }
 }
 

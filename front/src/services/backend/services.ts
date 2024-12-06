@@ -25,7 +25,7 @@ interface Document{
     "base64": any,
 }
 
-export interface ResponseData{
+export interface ResponseData {
     "result": Document[],
 }
 
