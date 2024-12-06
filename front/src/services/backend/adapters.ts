@@ -71,9 +71,11 @@ class RealBackendAdapter extends BackendAdapter {
         const response: ResponseData = (await axiosInstance.post(url, data)).data
         const result: TargetFile[] = []
         for (let doc of response.result) {
-            result.push(
-                convertDocumentToTargetFile(doc)
-            )
+            if (doc.score >= 10){
+                result.push(
+                    convertDocumentToTargetFile(doc)
+                )
+            }
         }
         return result
     }
