@@ -21,6 +21,11 @@ export const unauthMenuItems: MenuItem[] = [
         code: "upload",
         onClick: () => router.push({name: "upload"}),
     },
+    {
+        title: "Технарям",
+        code: "about",
+        onClick: () => router.push({name: "about"}),
+    }
 ]
 
 export const handleClickOnLogo = () => router.push({name: "llm"})

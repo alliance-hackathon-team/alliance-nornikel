@@ -4,7 +4,9 @@ import os
 import platform
 from fastapi.middleware.cors import CORSMiddleware
 from llama import LlamaModel
+import os
 
+HOST_CUT_PDF_PATH = os.getenv("HOST_CUT_PDF_PATH", "/app/cut_pdf")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class VLLMFastAPI:
@@ -84,12 +86,16 @@ async def semantic_search_endpoint(body: dict = Body(...)):
         for file in results:
             title = file.metadata[0]['title']
             pages = file.page_num
-            src = file.metadata[0]['file_path']
+
+            if '\\' in HOST_CUT_PDF_PATH:
+                src_path_cut = f"{HOST_CUT_PDF_PATH}\\{title}\\{title}_{pages}.pdf"
+            else:
+                src_path_cut = os.path.join(HOST_CUT_PDF_PATH, f"{title}_{pages}.pdf")
 
             sources.append(dict(
                 title=title, 
                 pages=pages,
-                src=src,
+                src=src_path_cut,
             ))
 
         return {"content": summary, "sources": sources}

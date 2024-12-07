@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
 COPY requirements_vllm.txt .
 RUN pip install --no-cache-dir -r requirements_vllm.txt
 
+ARG HOST_CUT_PDF_PATH
+ENV HOST_CUT_PDF_PATH=${HOST_CUT_PDF_PATH}
+
 # Копируем все файлы проекта
 COPY . .
 

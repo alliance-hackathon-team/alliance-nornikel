@@ -1,9 +1,9 @@
 import os
 import time
 import shutil
-from PIL import Image
 import subprocess
 import requests
+from PyPDF2 import PdfReader, PdfWriter
 
 class FileToPdfConverter:
     def __init__(self):
@@ -35,7 +35,6 @@ class FileToPdfConverter:
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Файл {file_path} не найден.")
 
-        # Укажите путь к soffice.exe, если он не в PATH
         libreoffice_path = shutil.which("soffice") or r"C:\Program Files\LibreOffice\program\soffice.exe"
 
         if not os.path.exists(libreoffice_path):
@@ -51,18 +50,29 @@ class FileToPdfConverter:
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Ошибка при конвертации {file_path} в PDF: {e}")
 
-    def convert_image_to_pdf(self, image_path, output_pdf_path):
+    def split_pdf_pages(self, pdf_path, output_directory):
         """
-        Конвертирует изображение в PDF.
+        Разделяет PDF на отдельные страницы, сохраняя их в output_directory.
         """
-        if not os.path.exists(image_path):
-            raise FileNotFoundError(f"Файл {image_path} не найден.")
+        if not os.path.exists(pdf_path):
+            raise FileNotFoundError(f"PDF файл {pdf_path} не найден.")
 
-        img = Image.open(image_path)
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        img.save(output_pdf_path, format="PDF")
-        print(f"PDF успешно создан: {output_pdf_path}")
+        pdf_reader = PdfReader(pdf_path)
+        title = os.path.splitext(os.path.basename(pdf_path))[0]
+        output_folder = os.path.join(output_directory, title)
+
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+
+        for page_num, page in enumerate(pdf_reader.pages, start=1):
+            pdf_writer = PdfWriter()
+            pdf_writer.add_page(page)
+
+            output_page_path = os.path.join(output_folder, f"{title}_{page_num}.pdf")
+            with open(output_page_path, "wb") as output_pdf:
+                pdf_writer.write(output_pdf)
+
+            print(f"Страница {page_num} сохранена как {output_page_path}.")
 
     def move_to_directory(self, file_path, target_directory):
         """
@@ -106,7 +116,7 @@ class FileToPdfConverter:
         except Exception as e:
             print(f"Ошибка при выполнении запроса на {url}: {e}")
 
-    def monitor_and_convert(self, input_dir, output_dir, converter):
+    def monitor_and_convert(self, input_dir, output_dir, cut_pdf_dir):
         """
         Следит за файлами в input_dir и конвертирует их в PDF, сохраняя в output_dir.
         """
@@ -127,9 +137,12 @@ class FileToPdfConverter:
 
                     try:
                         print(f"Обрабатываю файл: {file_path}")
-                        converter.convert(file_path, output_file_path)
+                        self.convert(file_path, output_file_path)
                         print(f"Сохранено: {output_file_path}")
                         processed_files.add(file_name)  # Помечаем файл как обработанный
+
+                        # Разделить PDF на страницы
+                        self.split_pdf_pages(output_file_path, cut_pdf_dir)
                     except Exception as e:
                         print(f"Ошибка при обработке {file_path}: {e}")
 
@@ -143,12 +156,17 @@ class FileToPdfConverter:
 
             time.sleep(5)
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 input_directory = os.path.join(BASE_DIR, "samples")
 output_directory = os.path.join(BASE_DIR, "results")
+cut_pdf_directory = os.path.join(BASE_DIR, "cut_pdf")
 
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
 
+if not os.path.exists(cut_pdf_directory):
+    os.makedirs(cut_pdf_directory)
+
 converter = FileToPdfConverter()
-converter.monitor_and_convert(input_directory, output_directory, converter)
+converter.monitor_and_convert(input_directory, output_directory, cut_pdf_directory)

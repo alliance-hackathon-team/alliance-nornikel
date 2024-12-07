@@ -9,10 +9,21 @@ import IntersectionObserver from "../componets/intersection-observer.vue";
 
 const searchString = ref("")
 const targetFiles: Ref<TargetFile[]> = ref([])
+const loading = ref(false)
 
 const handleSearch = async (value: string) => {
-  searchString.value = value
-  targetFiles.value = await getBackendAdapter().getTargetFiles(searchString.value)
+  if (loading.value || value.length === 0) {
+    return
+  }
+  try {
+    loading.value = true
+    searchString.value = value
+    targetFiles.value = await getBackendAdapter().getTargetFiles(searchString.value)
+  } catch (err) {
+    console.error(err)
+  } finally {
+    loading.value = false
+  }
 }
 
 const step = 10
@@ -29,6 +40,7 @@ const increaseMaxElements = () => {
       <search-input
           btn-text="Поиск"
           :clear-after-input="false"
+          :waits="loading"
           placeholder="Введите название файла, чтобы я его нашел"
           @on-search="handleSearch"
           class="sticky"
