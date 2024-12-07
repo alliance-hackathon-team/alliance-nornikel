@@ -78,7 +78,7 @@ class BackendAdapter {
 const axiosInstance = axios.create({
     baseURL: "http://127.0.0.1:8000",
     headers: {
-        "Accept": "application/json",
+        "Content-Type": "application/json",
     },
 })
 
@@ -109,8 +109,8 @@ class RealBackendAdapter extends BackendAdapter {
 
     async uploadFiles(files: File[]): Promise<void> {
         const formData = new FormData()
-        files.forEach((file, index) => {
-            formData.append(`files[${index}]`, file); // Вложение файла с индексированием
+        files.forEach((file) => {
+            formData.append(`files`, file); // Вложение файла с индексированием
         })
         const headers = {
             "Content-Type": "multipart/form-data",
