@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+torch
+byaldi
+fastapi-cors
+transformers
+PyPDF2
+ollama

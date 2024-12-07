@@ -1,0 +1,6 @@
+fastapi
+fastapi-cors
+requests
+aiofiles
+uvicorn
+python-multipart

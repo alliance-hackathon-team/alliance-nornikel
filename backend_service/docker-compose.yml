@@ -1,0 +1,12 @@
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - c:\hackathon\samples\:/app/files   # Папка для входных файлов
+    environment:
+      - PYTHONUNBUFFERED=1

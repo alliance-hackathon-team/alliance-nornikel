@@ -1,0 +1,38 @@
+
+.horizontal-menu{
+    height: 38px;
+    width: 100%;
+    max-width: 100vw;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 0 12px;
+    z-index: 999;
+    user-select: none;
+}
+
+
+.horizontal-menu-top {
+    position: fixed;
+    top: 0;
+}
+
+.horizontal-menu-bottom{
+    position: fixed;
+    bottom: 0;
+}
+
+.horizontal-menu-item {
+    height: 100%;
+    cursor: pointer;
+    padding: 6px 12px;
+}
+
+.horizontal-menu-item:hover {
+    background: var(--color-primary-hover);
+}
+
+.horizontal-menu-sign-btn{
+    height: 100%;
+    cursor: pointer;
+    padding: 6px 12px;
+}
