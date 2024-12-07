@@ -1,0 +1,10 @@
+pillow
+PyMuPDF
+fastapi
+byaldi
+uvicorn
+requests
+aiofiles
+transformers
+PyPDF2
+ollama

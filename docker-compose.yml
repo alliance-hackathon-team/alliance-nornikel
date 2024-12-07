@@ -1,0 +1,59 @@
+services:
+  preprocessing_service:
+    build:
+      context: ./preprocessing_service
+      dockerfile: Dockerfile
+    container_name: preprocessing_service
+    volumes:
+      - c:\hackathon\samples:/app/samples   # Папка для входных файлов
+      - c:\hackathon\results:/app/results   # Папка для выходных файлов
+      - c:\hackathon\cut_pdf:/app/cut_pdf   # Папка для нарезанных PDF
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  vllm_fastapi_service:
+    build:
+      context: ./vision_llm_service
+      dockerfile: Dockerfile
+      args:
+        HOST_CUT_PDF_PATH: c:\hackathon\cut_pdf
+    container_name: vllm_fastapi_service
+    ports:
+      - "8001:8001"
+    volumes:
+      - c:\hackathon\results:/app/files   # Папка для входных файлов
+      - c:\hackathon\cut_pdf:/app/cut_pdf # Папка для нарезанных PDF
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HOST_CUT_PDF_PATH=c:\hackathon\cut_pdf # Передача пути на Windows
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # Количество GPU (можно указать "all" для всех доступных)
+              capabilities: [gpu] # Тип ресурсов: GPU
+
+  backend_service:
+    build:
+      context: ./backend_service
+      dockerfile: Dockerfile
+    container_name: backend_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - c:\hackathon\samples:/app/files   # Папка для входных файлов
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  vue_app:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: vue_app
+    ports:
+      - "5173:5173" # Пробрасывает порт 5173 на хосте в контейнер
+    environment:
+      - NODE_ENV=development # Устанавливает переменную окружения
+    restart: unless-stopped
