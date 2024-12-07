@@ -17,7 +17,7 @@ const highlightText = (text: string, search: string | undefined): string => {
   }
   const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = new RegExp(`(${escapedSearch})`, "gi");
-   // Оборачиваем совпадения в span
+  // Оборачиваем совпадения в span
   return text.replace(regex, `<span style="background: yellow">$1</span>`)
 };
 </script>
@@ -34,7 +34,7 @@ const highlightText = (text: string, search: string | undefined): string => {
       <span v-html="highlightText(p.targetFile.title + p.targetFile.extension, searchString)"></span>
     </div>
     <div class="mt-12 multiline-ellipsis">
-<!--      <span v-html="highlightText(p.targetFile.content, searchString)"></span>-->
+      Номер страницы: {{ p.targetFile.content }}
     </div>
   </div>
 </template>

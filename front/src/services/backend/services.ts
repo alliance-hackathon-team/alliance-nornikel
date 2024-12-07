@@ -35,7 +35,7 @@ export function convertDocumentToTargetFile(data: Document): TargetFile {
         src: data.metadata[0].file_path,
         title: data.metadata[0].title,
         extension: data.metadata[0].extension,
-        content: "Здесь должен был быть контент",
+        content: String(data.page_num),
     })
 }
 
