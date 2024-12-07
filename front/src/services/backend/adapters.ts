@@ -126,5 +126,6 @@ class RealBackendAdapter extends BackendAdapter {
 
 
 export function getBackendAdapter(): BackendAdapter {
-    return new BackendAdapter()
+    return new RealBackendAdapter()
+    // return new BackendAdapter()
 }
