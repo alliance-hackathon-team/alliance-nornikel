@@ -47,6 +47,7 @@ for (let i = 0; i < 100; i++) {
 
 class BackendAdapter {
     async getTargetFiles(searchString: string): Promise<TargetFile[]> {
+        await sleep(3_000)
         console.log(searchString);
         return fakeData
     }
