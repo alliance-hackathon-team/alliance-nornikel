@@ -7,5 +7,21 @@ export const TargetFile = z.object({
     src: z.string(),
 }).strict()
 
-export type TargetFile = z.infer<typeof TargetFile>
 
+export const Source = z.object({
+    title: z.string(),
+    src: z.string(),
+    pages: z.number().array(),
+    quote: z.string().optional().nullable(),
+})
+
+
+export const LLMResponse = z.object({
+    content: z.string(),
+    sources: Source.array(),
+})
+
+
+export type TargetFile = z.infer<typeof TargetFile>
+export type Source = z.infer<typeof Source>
+export type LLMResponse = z.infer<typeof LLMResponse>

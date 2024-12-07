@@ -14,7 +14,7 @@ watch(searchString, handleSearch, {immediate: true})
 
 <template>
   <div>
-    <div class="container bg-blue-0">
+    <div class="search-container bg-blue-0">
       <input
           type="search"
           placeholder="Search..."
@@ -38,7 +38,7 @@ watch(searchString, handleSearch, {immediate: true})
 </template>
 
 <style scoped>
-.container {
+.search-container {
   position: sticky;
   top: 38px;
   display: flex; /* Используем flexbox для распределения пространства */
@@ -51,7 +51,7 @@ watch(searchString, handleSearch, {immediate: true})
   gap: 10px; /* Расстояние между элементами */
 }
 
-.container input[type="search"] {
+.search-container input[type="search"] {
   flex: 1; /* Занимает всё оставшееся пространство */
   padding: 10px;
   font-size: 16px;
@@ -60,7 +60,7 @@ watch(searchString, handleSearch, {immediate: true})
   box-sizing: border-box; /* Учитываем внутренние отступы */
 }
 
-.container button {
+.search-container button {
   flex-shrink: 0; /* Кнопка сохраняет свою ширину и не сжимается */
   padding: 10px 20px;
   font-size: 16px;
@@ -71,7 +71,7 @@ watch(searchString, handleSearch, {immediate: true})
   cursor: pointer;
 }
 
-.container button:hover {
+.search-container button:hover {
   background-color: var(--color-primary-hover);
 }
 

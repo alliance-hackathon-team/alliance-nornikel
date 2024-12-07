@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
-import FileUploader from "./file-uploader.vue";
+import SimpleUploader from "./simple-uploader.vue";
 </script>
 
 <template>
 <div class="flex-wrapper justify-center align-center">
   <div class="mt-24">
-    <file-uploader/>
+    <simple-uploader/>
   </div>
 </div>
 </template>

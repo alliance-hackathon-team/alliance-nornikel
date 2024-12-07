@@ -1,6 +1,7 @@
-import {TargetFile} from "./domain.ts";
+import {LLMResponse, TargetFile} from "./domain.ts";
 import axios from "axios";
 import {convertDocumentToTargetFile, ResponseData} from "./services.ts";
+import {safeParsing} from "../../utils/other.ts";
 
 const fakeData: TargetFile[] = [
     {
@@ -50,6 +51,24 @@ class BackendAdapter {
         return fakeData
     }
 
+    async getLLMResponse(searchString: string): Promise<LLMResponse> {
+        console.log(searchString)
+        return {
+            content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
+                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an " +
+                "unknown printer took a galley of type and scrambled it to make a type specimen book." +
+                " It has survived not only five centuries, but also the leap into electronic typesetting, " +
+                "remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset" +
+                " sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
+                "like Aldus PageMaker including versions of Lorem Ipsum.\n",
+            sources: [
+                {title: "Source1", pages: [12, 13], src: "https://google.com"},
+                {title: "Source2", pages: [1], src: "https://google.com"},
+                {title: "Source3", pages: [2, 3], src: "https://google.com"},
+            ],
+        }
+    }
+
     async uploadFiles(data: File[]): Promise<void> {
         console.log(data);
     }
@@ -71,13 +90,20 @@ class RealBackendAdapter extends BackendAdapter {
         const response: ResponseData = (await axiosInstance.post(url, data)).data
         const result: TargetFile[] = []
         for (let doc of response.result) {
-            if (doc.score >= 10){
+            if (doc.score >= 10) {
                 result.push(
                     convertDocumentToTargetFile(doc)
                 )
             }
         }
         return result
+    }
+
+    async getLLMResponse(searchString: string): Promise<LLMResponse> {
+        const data = {text: searchString}
+        const url = "/semanticsearch"
+        const response: LLMResponse = (await axiosInstance.post(url, data)).data
+        return safeParsing(LLMResponse, response)
     }
 
     async uploadFiles(files: File[]): Promise<void> {
@@ -90,12 +116,7 @@ class RealBackendAdapter extends BackendAdapter {
         }
 
         try {
-            await axiosInstance.post(
-                "/upload",
-                formData,
-                {headers: headers,},
-                )
-
+            await axiosInstance.post("/upload", formData, {headers})
         } catch (error) {
             console.error(error)
             throw error; // Проброс ошибки для обработки вызывающей стороной
@@ -105,5 +126,5 @@ class RealBackendAdapter extends BackendAdapter {
 
 
 export function getBackendAdapter(): BackendAdapter {
-    return new RealBackendAdapter()
+    return new BackendAdapter()
 }
