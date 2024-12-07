@@ -79,4 +79,8 @@
 h2{
   margin-top: 36px;
 }
+
+li{
+  margin-top: 12px;
+}
 </style>
