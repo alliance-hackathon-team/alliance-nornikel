@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {TargetFile} from "../../../services/backend/domain.ts";
+import {TargetFile} from "../../services/backend/domain.ts";
 
 const p = defineProps<{
   targetFile: TargetFile,
@@ -43,7 +43,7 @@ const highlightText = (text: string, search: string | undefined): string => {
 .target-file {
   border-radius: 6px;
   padding: 6px 12px;
-  width: 293px;
+  width: calc(100% / 2 - 5px);
   height: 300px;
   background: white;
 }

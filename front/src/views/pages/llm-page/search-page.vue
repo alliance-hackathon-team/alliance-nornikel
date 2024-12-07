@@ -2,7 +2,7 @@
 import {Ref, ref, watch} from "vue";
 import {getBackendAdapter} from "../../../services/backend/adapters.ts";
 import {TargetFile} from "../../../services/backend/domain.ts";
-import TargetFileComponent from "./target-file-component.vue";
+import TargetFileComponent from "../../componets/target-file-component.vue";
 
 const searchString = ref("")
 const targetFiles: Ref<TargetFile[]> = ref([])

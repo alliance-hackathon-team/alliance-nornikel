@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router"
-import SearchPage from "../views/pages/search-page/search-page.vue";
-import UploadPage from "../views/pages/upload-page/upload-page.vue";
-import LlmPage from "../views/pages/llm-page/llm-page.vue";
+import SearchPage from "../views/pages/llm-page/search-page.vue";
+import UploadPage from "../views/pages/upload-page.vue";
+import LlmPage from "../views/pages/llm-page.vue";
 
 
 export const router = createRouter({

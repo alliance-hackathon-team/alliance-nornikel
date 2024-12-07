@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, Ref} from "vue";
-import {getBackendAdapter} from "../../../services/backend/adapters";
+import {getBackendAdapter} from "../../services/backend/adapters.ts";
 
 
 // Определяем типы

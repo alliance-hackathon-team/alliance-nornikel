@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import SearchInput from "../../componets/search-input.vue";
+import SearchInput from "../componets/search-input.vue";
 import {nextTick, ref, Ref} from "vue";
-import {LLMResponse} from "../../../services/backend/domain.ts";
-import {getBackendAdapter} from "../../../services/backend/adapters.ts";
-import LlmResponse from "../../componets/llm-response.vue";
-import MyMessage from "../../componets/my-message.vue";
+import {LLMResponse} from "../../services/backend/domain.ts";
+import {getBackendAdapter} from "../../services/backend/adapters.ts";
+import LlmResponse from "../componets/llm-response.vue";
+import MyMessage from "../componets/my-message.vue";
 
 type Message = string | LLMResponse
 
