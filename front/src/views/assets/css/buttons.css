@@ -37,6 +37,10 @@
 
 }
 
+.btn-big{
+    height: 40px;
+}
+
 .btn-sm-new{
     height: 24px;
     line-height: 24px;

@@ -62,11 +62,11 @@ const handleClickOnButton = () => {
         v-model.lazy="searchString"
         @keyup.esc="handleClickOnEsc"
         @keyup.enter="handleClickOnEnter"
-        class="search-input"
+        class="search-input  my-height"
     >
     <button
         @click="handleClickOnButton"
-        class="search-button"
+        class="btn btn-primary my-height search-button"
     >
       {{ p.waits ? "Жду ответ..." : p.btnText }}
     </button>
@@ -80,22 +80,17 @@ const handleClickOnButton = () => {
   padding: 10px;
   font-size: 16px;
   border: 1px solid var(--color-blue-2);
-  border-radius: 4px;
+  border-radius: 30px;
   box-sizing: border-box; /* Учитываем внутренние отступы */
 }
 
 .search-button {
   flex-shrink: 0; /* Кнопка сохраняет свою ширину и не сжимается */
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  background-color: var(--color-primary);
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
+  width: 120px;
 }
 
-.search-button:hover {
-  background-color: var(--color-primary-hover);
+
+.my-height{
+  height: 40px;
 }
 </style>
