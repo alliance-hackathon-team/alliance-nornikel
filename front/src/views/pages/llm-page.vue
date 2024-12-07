@@ -48,34 +48,37 @@ const handleClickOnSearch = async (value: string) => {
 
 <template>
   <div class="flex-wrapper justify-center">
-    <div
-        class="mt-48 chat-container"
-        ref="chatContainerRef"
-    >
+
       <div
-          class="mt-24"
-          v-for="msg in messages"
+          class="mt-48 chat-container"
+          ref="chatContainerRef"
       >
-        <llm-response
-            :llm-response="msg"
-            v-if="typeof msg === 'object'"
-        />
-        <my-message
-            :message="msg"
-            v-else
+        <div
+            class="mt-24"
+            v-for="msg in messages"
+        >
+          <llm-response
+              :llm-response="msg"
+              v-if="typeof msg === 'object'"
+          />
+          <my-message
+              :message="msg"
+              v-else
+          />
+        </div>
+      </div>
+
+      <div class="search-container">
+        <search-input
+            @on-search="handleClickOnSearch"
+            :clear-after-input="true"
+            btn-text="Отправить"
+            :waits="loading"
+            placeholder="Напишите вопрос, и я отвечу на основе данных Норникеля"
         />
       </div>
-    </div>
-
-    <div class="search-container">
-      <search-input
-          @on-search="handleClickOnSearch"
-          :clear-after-input="true"
-          btn-text="Отправить"
-          :waits="loading"
-      />
-    </div>
   </div>
+
 </template>
 
 <style scoped>
