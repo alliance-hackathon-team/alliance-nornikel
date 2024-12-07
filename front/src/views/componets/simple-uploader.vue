@@ -58,6 +58,9 @@ const uploadFiles = async (): Promise<void> => {
 
 <template>
   <div class="file-uploader">
+    <div class="mb-12">
+      Загрузчик файлов
+    </div>
     <input
         type="file"
         multiple
@@ -106,7 +109,7 @@ const uploadFiles = async (): Promise<void> => {
 <style scoped>
 .file-uploader {
   padding: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-blue-2);
   border-radius: 4px;
   width: 300px;
   margin: 0 auto;

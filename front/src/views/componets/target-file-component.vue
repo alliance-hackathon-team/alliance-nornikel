@@ -42,6 +42,7 @@ const highlightText = (text: string, search: string | undefined): string => {
 <style scoped>
 .target-file {
   border-radius: 6px;
+  border: 1px solid var(--color-blue-2);
   padding: 6px 12px;
   width: calc(100% / 2 - 5px);
   height: 300px;
@@ -50,6 +51,7 @@ const highlightText = (text: string, search: string | undefined): string => {
 
 .target-file:hover {
   cursor: pointer;
+  background: var(--color-blue-2);
 }
 
 /* Многострочное ограничение с многоточием */
