@@ -26,13 +26,20 @@ const scrollToBottom = () => {
 };
 
 const handleClickOnSearch = async (value: string) => {
-  if (value.length > 0) {
-    loading.value = true
-    messages.value.push(value)
-    const response = await getBackendAdapter().getLLMResponse(value)
-    messages.value.push(response)
-    await nextTick() // Ждем, пока Vue обновит DOM
-    scrollToBottom()
+  try {
+    if (value.length > 0) {
+      loading.value = true
+      messages.value.push(value)
+      const response = await getBackendAdapter().getLLMResponse(value)
+      messages.value.push(response)
+      await nextTick() // Ждем, пока Vue обновит DOM
+      scrollToBottom()
+      loading.value = false
+    }
+  } catch (err) {
+    console.error(err)
+    messages.value.push("ERROR_" + String(err))
+  } finally {
     loading.value = false
   }
 }
