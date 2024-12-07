@@ -9,16 +9,21 @@ interface P {
   clearAfterInput: boolean,
   btnText: string,
   placeholder?: string,
+  waits?: boolean,
 }
 
 const p = withDefaults(defineProps<P>(), {
   placeholder: "",
+  waits: false,
 })
 
 
 const searchString = ref("")
 
 const handleClickOnEnter = () => {
+  if (p.waits) {
+    return
+  }
   e("onSearch", searchString.value)
   if (p.clearAfterInput) {
     searchString.value = ""
@@ -26,12 +31,18 @@ const handleClickOnEnter = () => {
 }
 
 const handleClickOnEsc = () => {
+  if (p.waits) {
+    return
+  }
   searchString.value = ""
   e("onSearch", searchString.value)
 
 }
 
 const handleClickOnButton = () => {
+  if (p.waits) {
+    return
+  }
   e("onSearch", searchString.value)
   if (p.clearAfterInput) {
     searchString.value = ""
@@ -57,7 +68,7 @@ const handleClickOnButton = () => {
         @click="handleClickOnButton"
         class="search-button"
     >
-      {{ p.btnText }}
+      {{ p.waits ? "Жду ответ..." : p.btnText }}
     </button>
   </div>
 </template>
