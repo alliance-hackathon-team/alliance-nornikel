@@ -12,22 +12,15 @@ interface MenuItem {
 
 export const unauthMenuItems: MenuItem[] = [
     {
-        title: "Search",
-        code: "search",
-        onClick: () => router.push({name: "search"}),
-
-    },
-    {
-        title: "Upload",
-        code: "upload",
-        onClick: () => router.push({name: "upload"}),
-
-    },
-    {
-        title: "LLM",
+        title: "Чат",
         code: "llm",
         onClick: () => router.push({name: "llm"}),
-    }
+    },
+    {
+        title: "Файлы",
+        code: "upload",
+        onClick: () => router.push({name: "upload"}),
+    },
 ]
 
-export const handleClickOnLogo = () => router.push({name: "search"})
+export const handleClickOnLogo = () => router.push({name: "llm"})

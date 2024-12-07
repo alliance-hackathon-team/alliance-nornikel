@@ -16,7 +16,7 @@ import {handleClickOnLogo, unauthMenuItems} from "./domain.ts";
 
     <div class="flex-wrapper flex-gap-12">
       <div
-          class="horizontal-menu-sign-btn"
+          class="horizontal-menu-item"
           v-for="item in unauthMenuItems"
           @click="item.onClick"
       >

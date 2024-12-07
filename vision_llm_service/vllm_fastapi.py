@@ -26,8 +26,8 @@ class VLLMFastAPI:
         self.vllm_service = self.initialize_vllm_service()
 
 # Создаем экземпляр класса
-# vllm_api = VLLMFastAPI()
-# llama = LlamaModel()
+vllm_api = VLLMFastAPI()
+llama = LlamaModel()
 
 app = FastAPI()
 
@@ -55,8 +55,6 @@ async def search_endpoint(body: dict = Body(...)):
 @app.post("/semanticsearch")
 async def semantic_search_endpoint(body: dict = Body(...)):
     """Эндпоинт для семантического поиска по тексту."""
-    vllm_api = VLLMFastAPI()
-    llama = LlamaModel()
     text = body.get("text")
     if not text:
         raise HTTPException(status_code=400, detail="Field 'text' is required.")
@@ -82,28 +80,21 @@ async def semantic_search_endpoint(body: dict = Body(...)):
         llama_response = llama.generate_text(text, combined_content)
         summary = llama.summary(llama_response)
 
-        # Добавляем llama_response в метаданные
-        results[0]["metadata"][0]["llama_response"] = summary
+        sources = []
+        for file in results:
+            title = file.metadata[0]['title']
+            pages = file.page_num
+            src = file.metadata[0]['file_path']
 
-        return {"result": results}
+            sources.append(dict(
+                title=title, 
+                pages=pages,
+                src=src,
+            ))
+
+        return {"content": summary, "sources": sources}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-
-# return {
-#             content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-#                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an " +
-#                 "unknown printer took a galley of type and scrambled it to make a type specimen book." +
-#                 " It has survived not only five centuries, but also the leap into electronic typesetting, " +
-#                 "remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset" +
-#                 " sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
-#                 "like Aldus PageMaker including versions of Lorem Ipsum.\n",
-#             sources: [
-#                 {title: "Source1", pages: [12, 13], src: "https://google.com"},
-#                 {title: "Source2", pages: [1], src: "https://google.com"},
-#                 {title: "Source3", pages: [2, 3], src: "https://google.com"},
-#             ],
-#         }
 
 @app.get("/indexing")
 async def indexing_endpoint():
@@ -113,13 +104,3 @@ async def indexing_endpoint():
         return {"message": "Indexing reloaded successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-if __name__ == "__main__":
-    import uvicorn
-    
-    uvicorn.run(
-        "vllm_fastapi:app",  # main - имя файла, app - объект приложения FastAPI
-        host="0.0.0.0",  # Слушать на всех интерфейсах
-        port=8000,       # Указать порт
-        reload=False      # Перезагрузка при изменениях (для разработки)
-    )

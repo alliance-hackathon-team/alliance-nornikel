@@ -1,0 +1,11 @@
+venv/*
+preprocessing_service/__pycache__/*
+preprocessing_service/samples/~$*.*
+preprocessing_service/images/*
+preprocessing_service/results/*
+.DS_Store
+.byaldi/*
+vision_llm_service/.byaldi/*
+__pycache__/*
+vision_llm_service/__pycache__/*
+.vscode/*

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 
-import SearchInput from "../../componets/search-input.vue";
+import SearchInput from "../componets/search-input.vue";
 import {nextTick, ref, Ref} from "vue";
-import {LLMResponse} from "../../../services/backend/domain.ts";
-import {getBackendAdapter} from "../../../services/backend/adapters.ts";
-import LlmResponse from "../../componets/llm-response.vue";
-import MyMessage from "../../componets/my-message.vue";
+import {LLMResponse} from "../../services/backend/domain.ts";
+import {getBackendAdapter} from "../../services/backend/adapters.ts";
+import LlmResponse from "../componets/llm-response.vue";
+import MyMessage from "../componets/my-message.vue";
 
 type Message = string | LLMResponse
 
 const messages: Ref<Message[]> = ref([])
+const loading = ref(false)
 
 
 const chatContainerRef = ref<HTMLElement | null>(null);
@@ -25,13 +26,21 @@ const scrollToBottom = () => {
 };
 
 const handleClickOnSearch = async (value: string) => {
-  messages.value.push(value)
-  if (value.length > 0) {
-    const response = await getBackendAdapter().getLLMResponse(value)
-    messages.value.push(response)
-    await nextTick() // Ждем, пока Vue обновит DOM
-    scrollToBottom()
-
+  try {
+    if (value.length > 0) {
+      loading.value = true
+      messages.value.push(value)
+      const response = await getBackendAdapter().getLLMResponse(value)
+      messages.value.push(response)
+      await nextTick() // Ждем, пока Vue обновит DOM
+      scrollToBottom()
+      loading.value = false
+    }
+  } catch (err) {
+    console.error(err)
+    messages.value.push("ERROR_" + String(err))
+  } finally {
+    loading.value = false
   }
 }
 
@@ -40,7 +49,7 @@ const handleClickOnSearch = async (value: string) => {
 <template>
   <div class="flex-wrapper justify-center">
     <div
-        class="mt-12 chat-container"
+        class="mt-48 chat-container"
         ref="chatContainerRef"
     >
       <div
@@ -63,6 +72,7 @@ const handleClickOnSearch = async (value: string) => {
           @on-search="handleClickOnSearch"
           :clear-after-input="true"
           btn-text="Отправить"
+          :waits="loading"
       />
     </div>
   </div>

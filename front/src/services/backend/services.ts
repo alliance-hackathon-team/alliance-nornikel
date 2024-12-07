@@ -1,7 +1,7 @@
 import {TargetFile} from "./domain.ts";
 import {safeParsing} from "../../utils/other.ts";
 
-interface Metadata  {
+interface Metadata {
     "file_path": string,
     "title": string,
     "extension": string,
@@ -17,7 +17,7 @@ interface Metadata  {
     "gid": number
 }
 
-interface Document{
+interface Document {
     "doc_id": 1,
     "page_num": 1,
     "score": 10.1875,
@@ -37,4 +37,9 @@ export function convertDocumentToTargetFile(data: Document): TargetFile {
         extension: data.metadata[0].extension,
         content: "Здесь должен был быть контент",
     })
+}
+
+
+export function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

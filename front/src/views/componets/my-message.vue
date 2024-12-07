@@ -5,7 +5,7 @@ const p = defineProps<{
 </script>
 
 <template>
-<div class="my-message">
+<div class="my-message" :class="{'error-message': p.message.includes('ERROR_', 0)}">
   {{ p.message}}
 </div>
 </template>
@@ -20,5 +20,9 @@ const p = defineProps<{
   word-break: break-word; /* Альтернативный способ для переносов */
   overflow-wrap: break-word; /* Поддержка в большинстве современных браузеров */
   max-width: 100%;
+}
+
+.error-message{
+  background-color: var(--color-red-light);
 }
 </style>

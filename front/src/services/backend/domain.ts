@@ -11,7 +11,8 @@ export const TargetFile = z.object({
 export const Source = z.object({
     title: z.string(),
     src: z.string(),
-    pages: z.number().array(),
+    //pages: z.number().array(),
+    pages: z.number(),
     quote: z.string().optional().nullable(),
 })
 

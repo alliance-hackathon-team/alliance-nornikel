@@ -1,6 +1,6 @@
 import {LLMResponse, TargetFile} from "./domain.ts";
 import axios from "axios";
-import {convertDocumentToTargetFile, ResponseData} from "./services.ts";
+import {convertDocumentToTargetFile, ResponseData, sleep} from "./services.ts";
 import {safeParsing} from "../../utils/other.ts";
 
 const fakeData: TargetFile[] = [
@@ -53,6 +53,7 @@ class BackendAdapter {
 
     async getLLMResponse(searchString: string): Promise<LLMResponse> {
         console.log(searchString)
+        await sleep(3_000)
         return {
             content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an " +
@@ -126,5 +127,6 @@ class RealBackendAdapter extends BackendAdapter {
 
 
 export function getBackendAdapter(): BackendAdapter {
-    return new BackendAdapter()
+    return new RealBackendAdapter()
+    // return new BackendAdapter()
 }
