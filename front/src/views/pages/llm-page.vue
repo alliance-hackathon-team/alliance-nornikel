@@ -73,7 +73,7 @@ const handleClickOnSearch = async (value: string) => {
           :clear-after-input="true"
           btn-text="Отправить"
           :waits="loading"
-          placeholder="Напишите вопрос и я отвечу на основе данных Норникеля"
+          placeholder="Напишите вопрос, и я отвечу на основе данных Норникеля"
       />
     </div>
   </div>
