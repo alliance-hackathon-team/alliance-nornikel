@@ -5,6 +5,7 @@ import TargetFileComponent from "../componets/target-file-component.vue";
 import {Ref, ref} from "vue";
 import {TargetFile} from "../../services/backend/domain.ts";
 import {getBackendAdapter} from "../../services/backend/adapters.ts";
+import IntersectionObserver from "../componets/intersection-observer.vue";
 
 const searchString = ref("")
 const targetFiles: Ref<TargetFile[]> = ref([])
@@ -12,6 +13,13 @@ const targetFiles: Ref<TargetFile[]> = ref([])
 const handleSearch = async (value: string) => {
   searchString.value = value
   targetFiles.value = await getBackendAdapter().getTargetFiles(searchString.value)
+}
+
+const step = 10
+const elementCounter = ref(step)
+const increaseMaxElements = () => {
+  console.log("intersected")
+  elementCounter.value += step
 }
 </script>
 
@@ -27,9 +35,12 @@ const handleSearch = async (value: string) => {
       />
       <div class="result-container mt-24">
         <target-file-component
-            v-for="item in targetFiles"
+            v-for="item in targetFiles.slice(0, elementCounter)"
             :target-file="item"
             :search-string="searchString"
+        />
+        <intersection-observer
+            @intersected="increaseMaxElements"
         />
       </div>
     </div>
@@ -52,7 +63,7 @@ const handleSearch = async (value: string) => {
   flex-wrap: wrap;
 }
 
-.sticky{
+.sticky {
   position: sticky;
   top: 38px;
 }
