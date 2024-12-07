@@ -34,7 +34,7 @@ const highlightText = (text: string, search: string | undefined): string => {
       <span v-html="highlightText(p.targetFile.title + p.targetFile.extension, searchString)"></span>
     </div>
     <div class="mt-12 multiline-ellipsis">
-      <span v-html="highlightText(p.targetFile.content, searchString)"></span>
+<!--      <span v-html="highlightText(p.targetFile.content, searchString)"></span>-->
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ const highlightText = (text: string, search: string | undefined): string => {
   border: 1px solid var(--color-blue-2);
   padding: 6px 12px;
   width: calc(100% / 2 - 5px);
-  height: 300px;
+  height: max-content;
   background: white;
 }
 
