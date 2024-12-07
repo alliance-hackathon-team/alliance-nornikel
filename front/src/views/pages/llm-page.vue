@@ -48,7 +48,6 @@ const handleClickOnSearch = async (value: string) => {
 
 <template>
   <div class="flex-wrapper justify-center">
-    <div>
 
       <div
           class="mt-48 chat-container"
@@ -78,7 +77,6 @@ const handleClickOnSearch = async (value: string) => {
             placeholder="Напишите вопрос, и я отвечу на основе данных Норникеля"
         />
       </div>
-    </div>
   </div>
 
 </template>
