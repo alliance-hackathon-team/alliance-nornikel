@@ -1,9 +1,10 @@
 # Nornickel Hackathon
 
-https://buildin.ai/phystech_gensis/share/dba64d1b-8af3-4447-a58e-d2095033542f
+Запуск:
 
-https://developer.nvidia.com/cuda-downloads
-
-https://pytorch.org/
-
-uvicorn vllm_fastapi:app --reload
+1. Устанавливайте драйвер https://developer.nvidia.com/cuda-downloads
+2. Открываете файл docker-compose.yml
+3. Меняете volumes на свои (Всего их шесть штук, они закоментированы так: #Папка для входных файлов,  #Папка для выходных файлов, #Папка для нарезанных PDF)
+4. docker compose up -d
+5. После сборки сайт будет доступен на http://localhost:5173
+6. Сорри, за костыли)
