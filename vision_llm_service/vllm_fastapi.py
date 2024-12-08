@@ -68,21 +68,8 @@ async def semantic_search_endpoint(body: dict = Body(...)):
         if not file_path or not os.path.exists(file_path):
             raise HTTPException(status_code=400, detail="Invalid or missing file path in metadata.")
         
-        # Объединяем содержимое всех PDF с указанием названий файлов
-        combined_content = ""
-        for file in results:
-            try:
-                pdf_file = file.metadata[0]['file_path']
-                pdf_text = llama.extract_text_from_pdf(pdf_file)
-                combined_content += f"\nFrom file '{pdf_file}':\n{pdf_text}\n"
-            except Exception as e:
-                print(f"Ошибка обработки файла {pdf_file}: {str(e)}")
-        
-        # Генерируем текст с помощью Llama
-        llama_response = llama.generate_text(text, combined_content)
-        summary = llama.summary(text, llama_response)
-
         sources = []
+        linux_dir = []
         for file in results:
             title = file.metadata[0]['title']
             pages = file.page_num
@@ -97,6 +84,31 @@ async def semantic_search_endpoint(body: dict = Body(...)):
                 pages=pages,
                 src=src_path_cut,
             ))
+
+            linux_dir.append(dict(
+                title=title, 
+                pages=pages,
+                src=os.path.join(f"/app/cut_pdf/{title}", f"{title}_{pages}.pdf"),
+            ))
+        
+        # Объединяем содержимое всех PDF с указанием названий файлов
+        combined_content = ""
+        for file in results:
+            try:
+                cut_pdf_src = [s for s in linux_dir if s['title'] == file.metadata[0]['title']]
+                if cut_pdf_src:
+                    cut_pdf_src = cut_pdf_src[0]['src']
+                else:
+                    cut_pdf_src = file.metadata[0]['file_path']
+
+                pdf_text = llama.extract_text_from_pdf(cut_pdf_src)
+                combined_content += f"\nFrom file '{cut_pdf_src}':\n{pdf_text}\n"
+            except Exception as e:
+                print(f"Ошибка обработки файла {cut_pdf_src}: {str(e)}")
+        
+        # Генерируем текст с помощью Llama
+        llama_response = llama.generate_text(text, combined_content)
+        summary = llama.summary(text, llama_response)
 
         return {"content": summary, "sources": sources}
     except Exception as e:
