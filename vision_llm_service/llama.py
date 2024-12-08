@@ -86,6 +86,9 @@ class LlamaModel:
                 ],
                 model=self.model_name
             )
-            return response["message"]["content"].strip()
+            try:
+                return f'{response["message"]["content"].strip()}. Дополнительная информация: {combined_content.strip()}'
+            except:
+                return combined_content.strip()
         except Exception as e:
             raise RuntimeError(f"Failed to generate summary using Ollama: {str(e)}")
