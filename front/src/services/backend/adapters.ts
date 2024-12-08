@@ -8,25 +8,25 @@ const fakeData: TargetFile[] = [
         title: "First",
         content: "FirstContent",
         extension: ".png",
-        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcYNTZfm35QdMyQ2jxMD9I_47Ch-f2V-LxeA&s",
+        src: "C:/Users/barma/OneDrive/Изображения/asus.jpg",
     },
     {
         title: "Second",
         content: "SecondContent",
         extension: ".pptx",
-        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcYNTZfm35QdMyQ2jxMD9I_47Ch-f2V-LxeA&s",
+        src: "C:/Users/barma/OneDrive/Изображения/asus.jpg",
     },
     {
         title: "Third",
         content: "ThirdContent",
         extension: ".pdf",
-        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcYNTZfm35QdMyQ2jxMD9I_47Ch-f2V-LxeA&s",
+        src: "C:/Users/barma/OneDrive/Изображения/asus.jpg",
     },
     {
         title: "Four",
         content: "FourthContent",
         extension: ".jpeg",
-        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcYNTZfm35QdMyQ2jxMD9I_47Ch-f2V-LxeA&s",
+        src: "C:/Users/barma/OneDrive/Изображения/asus.jpg",
     },
 ]
 for (let i = 0; i < 100; i++) {
@@ -40,21 +40,21 @@ for (let i = 0; i < 100; i++) {
                 "the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with " +
                 "desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
             extension: ".jpeg",
-            src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcYNTZfm35QdMyQ2jxMD9I_47Ch-f2V-LxeA&s",
+            src: "C:/Users/barma/OneDrive/Изображения/asus.jpg",
         },
     )
 }
 
 class BackendAdapter {
     async getTargetFiles(searchString: string): Promise<TargetFile[]> {
-        await sleep(3_000)
+        await sleep(1_000)
         console.log(searchString);
         return fakeData
     }
 
     async getLLMResponse(searchString: string): Promise<LLMResponse> {
         console.log(searchString)
-        await sleep(3_000)
+        await sleep(1_000)
         return {
             content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an " +
@@ -64,9 +64,9 @@ class BackendAdapter {
                 " sheets containing Lorem Ipsum passages, and more recently with desktop publishing software " +
                 "like Aldus PageMaker including versions of Lorem Ipsum.\n",
             sources: [
-                {title: "Source1", pages: [12, 13], src: "https://google.com"},
-                {title: "Source2", pages: [1], src: "https://google.com"},
-                {title: "Source3", pages: [2, 3], src: "https://google.com"},
+                {title: "Source1", pages: [12, 13], src: "C:/Users/barma/OneDrive/Изображения/asus.jpg"},
+                {title: "Source2", pages: [1], src: "C:\\Users\\barma\\OneDrive\\Изображения\\asus.jpg"},
+                {title: "Source3", pages: [2, 3], src: "C:\\Users\\barma\\OneDrive\\Изображения\\asus.jpg"},
             ],
         }
     }

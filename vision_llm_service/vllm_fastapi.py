@@ -80,7 +80,7 @@ async def semantic_search_endpoint(body: dict = Body(...)):
         
         # Генерируем текст с помощью Llama
         llama_response = llama.generate_text(text, combined_content)
-        summary = llama.summary(llama_response)
+        summary = llama.summary(text, llama_response)
 
         sources = []
         for file in results:
