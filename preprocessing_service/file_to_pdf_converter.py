@@ -149,7 +149,7 @@ class FileToPdfConverter:
                 # Все новые файлы обработаны, вызываем индексацию
                 print("Все новые файлы обработаны. Отправляю запрос в vllm_service.")
                 #indexing_url = "http://127.0.0.1:8000/indexing"
-                indexing_url = "http://host.docker.internal:8000/indexing"
+                indexing_url = "http://backend_service:8000/indexing"
                 self.send_indexing_request(indexing_url)
             else:
                 print("Новых файлов не найдено. Ожидаю...")

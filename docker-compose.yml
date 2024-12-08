@@ -34,6 +34,7 @@ services:
             - driver: nvidia
               count: all # Количество GPU (можно указать "all" для всех доступных)
               capabilities: [gpu] # Тип ресурсов: GPU
+    restart: unless-stopped
 
   backend_service:
     build:
@@ -46,6 +47,7 @@ services:
       - c:\hackathon\samples:/app/files   # Папка для входных файлов
     environment:
       - PYTHONUNBUFFERED=1
+    restart: unless-stopped
 
   vue_app:
     build:

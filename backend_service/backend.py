@@ -34,7 +34,7 @@ async def search_endpoint(body: dict = Body(...)):
         # Перенаправление запроса
         response = requests.post(
             #"http://127.0.0.1:8001/search",
-            "http://host.docker.internal:8001/search",
+            "http://vllm_fastapi_service:8001/search",
             json={"text": text},
             timeout=120
         )
@@ -55,7 +55,7 @@ async def semantic_search_endpoint(body: dict = Body(...)):
         # Перенаправление запроса
         response = requests.post(
             #"http://127.0.0.1:8001/search",
-            "http://host.docker.internal:8001/semanticsearch",
+            "http://vllm_fastapi_service:8001/semanticsearch",
             json={"text": text},
         )
         response.raise_for_status()
@@ -69,7 +69,7 @@ async def indexing_endpoint():
     try:
         # Перенаправление запроса
         response = requests.get(
-            "http://host.docker.internal:8001/indexing",
+            "http://vllm_fastapi_service:8001/indexing",
         )
         response.raise_for_status()
         return response.json()

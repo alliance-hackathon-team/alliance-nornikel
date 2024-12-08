@@ -23,21 +23,14 @@ class LlamaModel:
         :return: Сгенерированный текст
         """
         prompt = f"""
-        You are a smart assistant tasked with analyzing PDF content provided by the user. The user has provided two inputs:
-        1. user_text - the input from the user, which can be a word, a set of words, a question, or a semantic query.
-        2. combined_content - content extracted from multiple PDF files, where each file's content is labeled by its file name.
-
-        Your task is as follows:
-        - user_text is a question or a semantic query, provide a direct and concise answer for each relevant file. If a file does not contain relevant information, skip it.
-
-        Respond in the following format:
-        - For each file, start with "In file 'filename':" followed by the answer.
-        - Skip files without relevant content.
-
-        Here are the inputs:
-        - user_text: "{user_text}"
-        - combined_content: "{combined_content}"
+        Вы — интеллектуальный помощник, ваша задача — анализировать содержимое, извлеченное из нескольких PDF-файлов, и отвечать на заданный пользователем вопрос или семантический запрос. 
+        Каждый файл помечен своим именем. 
+        Ваша задача: 1. Если вопрос пользователя (user_text) касается содержания какого-либо файла, предоставьте краткий и релевантный ответ для каждого файла. 
+        2. Если файл не содержит информации, связанной с вопросом, пропустите его. 
+        Формат ответа: - Начинайте с "В файле 'имя_файла':" и укажите ответ на вопрос пользователя. - Пропускайте файлы, которые не содержат релевантной информации. 
+        Входные данные: - user_text: "{user_text}" - combined_content: "{combined_content}" Ответ должен быть точным и лаконичным."
         """
+        print(f'prompt {prompt}')
         try:
             response = chat(
                 messages=[
@@ -45,6 +38,7 @@ class LlamaModel:
                 ],
                 model=self.model_name
             )
+            print(f'response prompt {response["message"]["content"].strip()}')
             return response["message"]["content"].strip()
         except Exception as e:
             raise RuntimeError(f"Failed to generate text using Ollama: {str(e)}")
@@ -65,7 +59,7 @@ class LlamaModel:
         except Exception as e:
             raise RuntimeError(f"Failed to extract text from PDF: {str(e)}")
 
-    def summary(self, combined_content: str) -> str:
+    def summary(self, user_text: str, combined_content: str) -> str:
         """
         Формирование краткого содержания для каждого файла отдельно.
 
@@ -73,10 +67,12 @@ class LlamaModel:
         :return: Краткое содержание с разбивкой по файлам
         """
         prompt = f"""
-        Вы — ассистент, который составляет краткое содержание содержимого из нескольких помеченных источников.
-        - Для каждого файла предоставьте краткое содержание на русском языке, даже если исходное содержание на другом языке.
-        - Сохраните ключевые идеи и основное значение без лишних деталей.
-        - Убедитесь, что каждое резюме помечено именем соответствующего файла.
+        Вы — умный ассистент. Ваша задача — ответить на заданный пользователем вопрос, используя содержимое, извлеченное из нескольких PDF-файлов. Каждый файл помечен своим именем. 
+        Инструкции: 1. Ознакомьтесь с вопросом пользователя (user_text) и содержимым файлов (combined_content). 
+        2. Найдите релевантную информацию в содержимом файлов. 
+        3. Предоставьте краткий и точный ответ на вопрос, основываясь на информации из файлов. 
+        4. Если вопросу нет подходящего ответа в содержимом, сообщите: "В предоставленных файлах ответа на вопрос не найдено." 
+        Входные данные: - Вопрос: "{user_text}" - Содержимое файлов: "{combined_content}" Ответ должен быть лаконичным, точным и содержать только необходимую информацию..
         
         Содержимое:
         {combined_content}
