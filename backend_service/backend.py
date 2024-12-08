@@ -3,7 +3,6 @@ import os
 import aiofiles
 import requests
 from fastapi.middleware.cors import CORSMiddleware
-from . import s3_service
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "files")  # Директория для сохранения файлов
@@ -40,10 +39,7 @@ async def search_endpoint(body: dict = Body(...)):
             timeout=120
         )
         response.raise_for_status()
-        data = response.json()
-        for item in data:
-            item["src"] = s3_service.convert_path_to_link(item["src"])
-        return data
+        return response.json()
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Error contacting search service: {str(e)}")
     
@@ -63,9 +59,7 @@ async def semantic_search_endpoint(body: dict = Body(...)):
             json={"text": text},
         )
         response.raise_for_status()
-        data = response.json()
-        data = s3_service.convert(data)
-        return data
+        return response.json()
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Error contacting search service: {str(e)}")
     
