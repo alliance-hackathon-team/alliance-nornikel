@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     container_name: preprocessing_service
     volumes:
-      - /home/alliance-nornikel/samples:/app/samples   # Папка для входных файлов
-      - /home/alliance-nornikel/results:/app/results   # Папка для выходных файлов
-      - /home/alliance-nornikel/cut_pdf:/app/cut_pdf   # Папка для нарезанных PDF
+      - c:\hackathon\samples:/app/samples   # Папка для входных файлов
+      - c:\hackathon\results:/app/results   # Папка для выходных файлов
+      - c:\hackathon\cut_pdf:/app/cut_pdf   # Папка для нарезанных PDF
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
@@ -17,16 +17,16 @@ services:
       context: ./vision_llm_service
       dockerfile: Dockerfile
       args:
-        HOST_CUT_PDF_PATH: /home/alliance-nornikel/cut_pdf
+        HOST_CUT_PDF_PATH: c:\hackathon\cut_pdf
     container_name: vllm_fastapi_service
     ports:
       - "8001:8001"
     volumes:
-      - /home/alliance-nornikel/results:/app/files   # Папка для входных файлов
-      - /home/alliance-nornikel/cut_pdf:/app/cut_pdf # Папка для нарезанных PDF
+      - c:\hackathon\results:/app/files   # Папка для входных файлов
+      - c:\hackathon\cut_pdf:/app/cut_pdf # Папка для нарезанных PDF
     environment:
       - PYTHONUNBUFFERED=1
-      - HOST_CUT_PDF_PATH=/home/alliance-nornikel/cut_pdf # Передача пути на Windows
+      - HOST_CUT_PDF_PATH=c:\hackathon\cut_pdf # Передача пути на Windows
     deploy:
       resources:
         reservations:
@@ -44,7 +44,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /home/alliance-nornikel/samples:/app/files   # Папка для входных файлов
+      - c:\hackathon\samples:/app/files   # Папка для входных файлов
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped

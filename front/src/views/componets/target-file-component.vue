@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import {TargetFile} from "../../services/backend/domain.ts";
+import {ref} from "vue";
 
 const p = defineProps<{
   targetFile: TargetFile,
   searchString?: string,
 }>();
 
-const handleClickOnCard = () => {
-  window.open(p.targetFile.src, "_blank");
-};
+const showSmallWindow = ref(false)
+
+const handleClickOnCard = async (src: string) => {
+  showSmallWindow.value = true
+  await navigator.clipboard.writeText(src)
+  setTimeout(() => showSmallWindow.value = false, 15_000)
+}
 
 // Функция для подсветки совпадений
 const highlightText = (text: string, search: string | undefined): string => {
@@ -25,10 +30,29 @@ const highlightText = (text: string, search: string | undefined): string => {
 <template>
   <div
       class="target-file"
-      @click="handleClickOnCard"
+      @click="handleClickOnCard(p.targetFile.src)"
   >
     <div>
-      <!-- Подсвечиваем текст -->
+      <div class="info-window" v-if="showSmallWindow">
+        <div class="flex-wrapper">
+          <div class="font-bold fs-4">
+            Вы скопировали ссылку в буфер обмена!
+          </div>
+          <div class="mt-12">
+            Пожалуйста, откройте новую вкладу и вставьте ее в поисковую строку.
+            Мы не можем сделать это за вас, так как браузер не любит получать файлы с локального диска (а в рамках хакатона
+            мы получаем их именно оттуда). Извините за неудобства.
+          </div>
+          <div
+              @click="() => showSmallWindow = false"
+              class="ml-12 cursor-pointer link-style"
+          >
+            Закрыть
+          </div>
+        </div>
+
+      </div>
+
     </div>
     <div class="font-bold">
       <span v-html="highlightText(p.targetFile.title + p.targetFile.extension, searchString)"></span>
@@ -62,5 +86,24 @@ const highlightText = (text: string, search: string | undefined): string => {
   text-overflow: ellipsis;
   line-clamp: 9; /* Количество строк */
   -webkit-line-clamp: 9; /* Для Webkit-браузеров */
+}
+
+.info-window {
+  position: fixed;
+  top: 38px;
+  left: 0;
+  background: var(--color-green-light);
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.link-style {
+  color: blue; /* Синий цвет, как у ссылки */
+  text-decoration: underline; /* Подчеркивание */
+}
+
+.link-style:hover {
+  color: darkblue; /* Более темный оттенок синего при наведении */
+  text-decoration: underline; /* Сохраняем подчеркивание */
 }
 </style>

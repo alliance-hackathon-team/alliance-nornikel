@@ -4,4 +4,3 @@ requests
 aiofiles
 uvicorn
 python-multipart
-aiobotocore
