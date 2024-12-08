@@ -132,3 +132,9 @@ def convert(data: Data) -> Data:
             Source(title=item["title"], src=link, pages=item["pages"])
         )
     return Data(content=data["content"], sources=result_sources)
+
+
+def convert_path_to_link(path: Path) -> str:
+    repo = FileRepo()
+    link = repo.save_one(path)
+    return link
